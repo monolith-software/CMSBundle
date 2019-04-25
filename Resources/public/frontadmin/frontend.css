@@ -1,0 +1,82 @@
+@import "style.min.css";
+@import "sprites-toolbar.min.css";
+@import "sprites-toolbar-hover.min.css";
+@import "sprites.min.css";
+@import "sprites-hover.min.css";
+
+.cms-frontadmin-node {
+    position: relative;
+}
+.cms-frontadmin-node:hover {
+
+}
+/*
+.cms-frontadmin-node-mode-edit {
+    outline: 1px dashed gray;
+}
+.cms-frontadmin-node-mode-edit:hover {
+    outline: 2px dashed red;
+}
+*/
+.cms-empty-node {
+    height: 8px;
+    width: 8px;
+    background-color: red;
+}
+.cms-frontadmin-node-buttons {
+    color: #000000;
+}
+.cms-frontadmin-node-buttons.btn-group {
+    float: left;
+    position: absolute;
+    /*top: -6px;*/
+    left: 0;
+    z-index: 999;
+}
+.cms-frontadmin-node-buttons.btn-group a {
+    text-decoration: none;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 12px;
+    text-align: left;
+}
+.cms-frontadmin-node-buttons.btn-group li {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.cms-toolbar li {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+ul.dropdown-menu { /* Прижать меню вплотную к плашке*/
+    margin: 0;
+}
+.cms-toolbar-navbar a {
+    text-decoration: none;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 14px !important;
+}
+.cms-toolbar-navbar ul.nav li.dropdown:hover ul.dropdown-menu {
+    display: block;
+    margin: 0;
+}
+.cms-toolbar-navbar a.menu:after,
+.cms-toolbar-navbar .dropdown-toggle:after {
+    content: none;
+}
+
+.cms-toolbar-navbar-nav > li > a {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+.cms-toolbar-navbar {
+    min-height: 30px !important
+}
+.cms-toolbar-navbar-brand {
+    float: left;
+    height: 30px;
+    padding: 5px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}

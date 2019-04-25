@@ -1,0 +1,59 @@
+
+cms_admin_index:
+    path: /
+    defaults:
+        _controller: CMSBundle:Admin:dashboard
+
+#cms_admin_logout:
+#    path: /logout
+#    defaults:
+#        _controller: FOSUserBundle:Security:logout
+
+cms_admin_system:
+    resource: 'routing_admin_system.yml'
+    prefix: /system/
+
+cms_admin_system_themes:
+    resource: 'routing_admin_theme.yml'
+    prefix: /system/theme/
+
+cms_admin_node: # @deprecated
+    path: /node/{id}/
+    defaults:
+        _controller: CMSBundle:AdminStructure:node
+    requirements:
+        id: \d+
+
+cms_admin_node_w_slug: # @deprecated
+    path: /node/{id}/{slug}
+    defaults:
+        _controller: CMSBundle:AdminStructure:node
+    requirements:
+        id: \d+
+        slug: '.+'
+
+#cms_admin_module_full_path:
+#    path: /{name}/
+#    defaults:
+#        _controller: CMSBundle:Admin:module
+
+
+# @todo
+cms_admin_help:
+    path: /help/
+    defaults:
+        _controller: CMSBundle:Admin:notFound
+
+# @todo   Подлючение маршрутов модулей в админку.
+cms_admin_module_routes:
+    resource: .
+    type: module_admin
+
+# ... other
+#cms_admin_404:
+#    path: /{slug}
+#    defaults:
+#        _controller: CMSBundle:Admin:notFound
+#        slug: ''
+#    requirements:
+#        slug: '.+'

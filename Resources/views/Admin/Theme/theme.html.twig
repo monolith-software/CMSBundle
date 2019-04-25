@@ -1,0 +1,48 @@
+{% extends '@CMS/Admin/Theme/index.html.twig' %}
+
+{% block content %}
+<div class="box">
+    <div class="box-header with-border">
+        <h2 class="box-title">{{ 'Theme'|trans }}: {{ theme.title }}</h2>
+    </div>
+
+    <div class="box-body">
+
+        <h3>Основные шаблоны темы <small>/views/</small></h3>
+        <ul>
+            {% for file in views %}
+                <li><a href="{{ path('cms_admin_theme_file_edit', {'theme': theme.dirname, 'dir': 'views', 'relativePathname': file.relativePathname}) }}">{{ file.relativePathname }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3>Шаблоны модулей в нодах<small> /modules/</small></h3>
+        <ul>
+            {% for file in modules %}
+                <li><a href="{{ path('cms_admin_theme_file_edit', {'theme': theme.dirname, 'dir': 'modules', 'relativePathname': file.relativePathname}) }}">{{ file.relativePathname }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3>Переопределение шаблонов бандлов <small>/bundles/</small></h3>
+        <ul>
+            {% for file in bundles %}
+                <li><a href="{{ path('cms_admin_theme_file_edit', {'theme': theme.dirname, 'dir': 'bundles', 'relativePathname': file.relativePathname}) }}">{{ file.relativePathname }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3>Языковые переводы <small>/translations/</small></h3>
+        <ul>
+            {% for file in translations %}
+                <li><a href="{{ path('cms_admin_theme_file_edit', {'theme': theme.dirname, 'dir': 'translations', 'relativePathname': file.relativePathname}) }}">{{ file.relativePathname }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3>Публичные файлы <small>/public/</small></h3>
+        <ul>
+            {% for file in public %}
+                <li><a href="{{ path('cms_admin_theme_file_edit', {'theme': theme.dirname, 'dir': 'public', 'relativePathname': file.relativePathname}) }}">{{ file.relativePathname }}</a></li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
+{% endblock %}

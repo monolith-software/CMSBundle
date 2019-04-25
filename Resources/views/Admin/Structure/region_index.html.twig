@@ -1,0 +1,54 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Regions'|trans }} / {{ 'Structure'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Structure'|trans %}
+{% block page_description 'Управление папками, нодами и областями' %}
+
+{% block content %}
+    {{ knp_menu_render('CMSBundle:AdminMenu:structure', {'currentClass': 'active'})  }}
+
+<div class="box box-body">
+<div class="row">
+<div class="span8 col-md-8">
+    <table class="table table-bordered table-hover">
+        <thead><tr>
+            <th>#</th>
+            <th>{{ 'Name'|trans }}</th>
+            <th>{{ 'Description'|trans }}</th>
+            <th>{{ 'Position'|trans }}</th>
+            <th>{{ 'Inherit in folders'|trans }}</th>
+            <th>{{ 'Modules count'|trans }}</th>
+        </tr></thead>
+        <tbody>
+        {% for region in all_regions %}
+        <tr>
+            <td>{{ region.id }}</td>
+            <td><a href="{{ path('cms_admin_structure_region_edit', {'id': region.id}) }}">{{ region.name }}</a></td>
+            <td><a href="{{ path('cms_admin_structure_region_edit', {'id': region.id}) }}">{{ region.description }}</a></td>
+            <td>{{ region.position }}</td>
+            <td>{% for folder in region.folders %}<a href="{{ path('cms_admin_structure_folder', {'id': folder.id}) }}">{{ folder }}</a>, {% endfor %}</td>
+            <td>{{ cms_nodes_count_in_region(region) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="span4 col-md-4">
+
+    <h4>{{ 'Create'|trans }} {{ 'Region'|trans }}</h4>
+    <form action="" enctype="multipart/form-data" method="post" class="form-vertical well">
+        {{ form_widget(form) }}
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" name="create" class="btn btn-success"><i class="icon-plus icon-white"></i><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{ 'Create'|trans }}</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

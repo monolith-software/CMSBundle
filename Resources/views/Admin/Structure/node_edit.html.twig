@@ -1,0 +1,149 @@
+{% extends '@CMS/Admin/Structure/structure.html.twig' %}
+
+{% block title %}{{ 'Edit node'|trans }}: {{ node.id }} ({{ node.moduleShortName }}) / {{ parent() }}{% endblock %}
+
+{% block page_header %}
+    {{ 'Structure'|trans }} &mdash; {{ 'Edit node'|trans }}: {{ node.id }} ({{ node.moduleShortName }})
+{% endblock %}
+
+{% block body_js %}
+    {{ parent() }}
+    <script>
+        $('#nodeTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            $(this.hash + ' input[autofocus="autofocus"]').focus();
+        });
+    </script>
+{% endblock body_js %}
+
+{% block content %}
+<div class="row">
+    {% if not app.request.query.has('_overlay') %}
+        <div class="col-md-6 col-xs-12">
+            {{ include('@CMS/Admin/Structure/_mega_structure.html.twig') }}
+        </div>
+    {% endif %}
+    <div class="{% if not app.request.query.has('_overlay') %}col-md-6 col-xs-12{% else %}col-md-12{% endif %}">
+        {% if not app.request.query.has('_overlay') %}
+            <div class="structure-menu">
+                {{ knp_menu_render('CMSBundle:AdminMenu:structure', {'currentClass': 'active'})  }}
+            </div>
+            <style>
+                .structure-menu .nav > li > a {
+                    padding: 5px;
+                    font-size: 13px;
+                }
+                .structure-menu .nav-tabs {
+                    border: 0;
+                }
+            </style>
+        {% endif %}
+        <div class="box box-default" style="padding: 0 10px 10px 10px">
+            {#
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ 'Module linking parameters'|trans }}: {{ node.moduleShortName }}</h3>
+            </div>
+            #}
+            <div class="box-body">
+            {% if is_enabled == false %}
+                <div class="alert alert-danger" role="alert"><strong>Внимание!</strong> Модуль отключен</div>
+            {% endif %}
+
+            <form action="" enctype="multipart/form-data" method="POST" {#class="form-horizontal well"#}>
+                {% if form_properties.count() > 0 %}
+                    <ul class="nav nav-pills" id="nodeTab">
+                        <li class="active"><a href="#node-properties">{{ 'Module linking parameters'|trans }}</a></li>
+                        <li><a href="#node-common">Основные свойства</a></li>
+                        <li><a href="#node-permissions" data-toggle="tab">{{ 'Permissions'|trans }}</a></li>
+                    </ul>
+                    <style>
+                        .nav > li > a {
+                            padding: 5px 10px;
+                            font-size: 12px;
+                        }
+                        .nav-pills > li.active > a {
+                            font-weight: 400;
+                        }
+                    </style>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="node-properties">
+                            {#{% include '@CMS/AdminStructure/node_properties_form.html.twig' %}#}
+                            {% include form_properties_template %}
+                        </div>
+                        <div class="tab-pane" id="node-permissions">
+                            {{ form_row(form.groups_granted_read) }}
+                            {{ form_row(form.groups_granted_write) }}
+                        </div>
+                        <div class="tab-pane" id="node-common">
+                            {{ form_widget(form) }}
+                        </div>
+                    </div>
+                {% else %}
+                    <ul class="nav nav-pills" id="nodeTab">
+                        <li class="active"><a href="#node-common">Основные свойства</a></li>
+                        <li><a href="#node-permissions" data-toggle="tab">{{ 'Permissions'|trans }}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="node-permissions">
+                            {{ form_row(form.groups_granted_read) }}
+                            {{ form_row(form.groups_granted_write) }}
+                        </div>
+                        <div class="tab-pane active" id="node-common">
+                            {{ form_widget(form) }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="control-group if-overlay-control-group">
+                    <div class="controls">
+                        <button type="submit" name="update" class="btn btn-success"><i class="icon-ok icon-white"></i><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{ 'Save'|trans }}</button>
+                        {% if allow_delete %}
+                            <button type="submit" name="delete" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить ноду?')" formnovalidate="formnovalidate">
+                                <i class="icon-trash icon-white"></i><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{ 'Delete'|trans }}
+                            </button>
+                        {% endif %}
+
+                        {% if app.request.query.has('redirect_to') %}
+                            <a class="btn btn-default cms-cancel" href="{{ app.request.query.get('redirect_to') }}">{{ 'Cancel'|trans }}</a>
+                        {% else %}
+                            <a class="btn btn-default cms-cancel" href="{{ path('cms_admin_structure') }}">{{ 'Cancel'|trans }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    {% if app.request.query.has('_overlay') %}
+        <script>
+          document.querySelector('.cms-cancel').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.top.__closeIframe();
+          });
+        </script>
+        <style>
+            .if-overlay-control-group {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                z-index: 999;
+                width: 100%;
+                background: #1e282c;
+                padding: 10px 0;
+                margin: 0 !important;
+            }
+
+            .if-overlay-control-group .controls {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            .if-overlay-control-group .controls .btn {
+                margin-right: 15px;
+            }
+        </style>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends '@CMS/Admin/User/index.html.twig' %}
+
+{% block title %}{{ 'Edit user'|trans }} / {{ parent() }}{% endblock %}
+
+{% set user = form.vars.value %}
+
+{% block content_admin_users %}
+    <h3>Редактирование пользователя: {{ user.id }}# {{ user.username }}</h3>
+
+    <form action="" enctype="multipart/form-data" method="POST" class="form-horizontal well">
+        {{ form_widget(form) }}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" name="update" class="btn btn-success">
+                    <i class="icon-ok icon-white"></i>
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    {{ 'Update'|trans }}
+                </button>
+                <a class="btn btn-default cms-cancel" href="{{ path('cms_admin_user') }}">{{ 'Cancel'|trans }}</a>
+            </div>
+        </div>
+    </form>
+
+    <p>Роли</p>
+
+    {% if user.roles is not empty %}
+        <ul>
+            {% for role in user.roles %}
+                {% if role != 'ROLE_USER' %}
+                    <li>{{ role }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

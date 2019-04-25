@@ -1,0 +1,11 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Edit language'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Languages'|trans %}
+{% block page_description 'Настройка языковых и региональных параметров' %}
+{% block content_header 'Edit language'|trans ~ ': &laquo;' ~ form.vars.value.name ~ '&raquo;' %}
+
+{% block content_body %}
+    {% include '@CMS/Form/default.html.twig' %}
+{% endblock %}

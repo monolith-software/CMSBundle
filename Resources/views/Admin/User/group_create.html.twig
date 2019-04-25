@@ -1,0 +1,9 @@
+{% extends '@CMS/Admin/User/index.html.twig' %}
+
+{% block title %}{{ 'Create users group'|trans }} / {{ parent() }}{% endblock %}
+
+{% block content_admin_users %}
+    <h3>{{ 'Create users group'|trans }}</h3>
+
+    {% include '@CMS/Form/default.html.twig' %}
+{% endblock %}

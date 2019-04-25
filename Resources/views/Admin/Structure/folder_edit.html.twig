@@ -1,0 +1,165 @@
+{% extends '@CMS/Admin/Structure/structure.html.twig' %}
+
+{% block title %}{{ 'Edit folder'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header %}
+    {{ 'Structure'|trans }} &mdash; {{ 'Edit folder'|trans }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% if not app.request.query.has('_overlay') %}
+    <div class="col-md-6">
+        {{ include('@CMS/Admin/Structure/_mega_structure.html.twig') }}
+    </div>
+    {% endif %}
+    <div class="{% if not app.request.query.has('_overlay') %}col-md-6{% else %} col-md-12{% endif %}">
+        {% if not app.request.query.has('_overlay') %}
+            <div class="structure-menu">
+                {{ knp_menu_render('CMSBundle:AdminMenu:structure', {'currentClass': 'active'})  }}
+            </div>
+            <style>
+                .structure-menu .nav > li > a {
+                    padding: 5px;
+                    font-size: 13px;
+                }
+                .structure-menu .nav-tabs {
+                    border: 0;
+                }
+            </style>
+        {% endif %}
+
+        <div class="box box-default" style="padding: 0 10px 10px 10px">
+            {#
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ 'Edit folder'|trans }}: &laquo;{{ form.vars.value.title }}&raquo;</h3>
+            </div>
+            #}
+            <div class="box-body">
+                {% if form is defined %}
+                    {% form_theme form '@CMS/Form/bootstrap_wide.html.twig' %}
+                {% endif %}
+                {#well form-horizontal#}
+                {{ form_start(form, {'attr':{'class': ''}}) }}
+                {% if form_errors(form) is not empty %}
+                    {#@todo Нелогичное поведение: если форма с ошибками, то form_errors(form) пуст#}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-exclamation-triangle"></i>Ошибки в форме!</h4>
+                        {{ form_errors(form) }}
+                    </div>
+                {% endif %}
+
+                <fieldset>
+                <div class="tabbable">
+                    <ul class="nav nav-pills">
+                        <li class="active"><a href="#base-settings" data-toggle="tab">{{ 'Base settings'|trans }}</a></li>
+                        <li><a href="#meta-tags" data-toggle="tab">{{ 'Meta tags'|trans }}</a></li>
+                        <li><a href="#folder-permissions" data-toggle="tab">{{ 'Permissions'|trans }}</a></li>
+                        <style>
+                            .nav > li > a {
+                                padding: 5px 10px;
+                                font-size: 12px;
+                            }
+                            .nav-pills > li.active > a {
+                                font-weight: 400;
+                            }
+                        </style>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="meta-tags">
+                            {{ form_widget(form.meta) }}
+                        </div>
+                        <div class="tab-pane" id="folder-permissions">
+                            {{ form_row(form.groups_granted_read) }}
+                            {{ form_row(form.groups_granted_write) }}
+
+                            {# @todo сделать вот такой шаблон для прав
+                            <table class="table table-bordered table-hover">
+                                <tr>
+                                    <th>Группа</th>
+                                    <th>Чтение</th>
+                                    <th>Запись</th>
+                                </tr>
+                                <tr>
+                                    <td>Гости</td>
+                                    <td><input value="1" checked="checked" type="checkbox"></td>
+                                    <td><input value="0" type="checkbox"></td>
+                                </tr>
+                                <tr>
+                                    <td>Администраторы</td>
+                                    <td><input value="1" checked="checked" type="checkbox"></td>
+                                    <td><input value="1" checked="checked" type="checkbox"></td>
+                                </tr>
+                                <tr>
+                                    <td>Новостеписатели</td>
+                                    <td><input value="1" checked="checked" type="checkbox"></td>
+                                    <td><input value="1" checked="checked" type="checkbox"></td>
+                                </tr>
+                            </table>
+                            #}
+                        </div>
+                        <div class="tab-pane active" id="base-settings">
+                            {{ form_widget(form) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group if-overlay-control-group ">
+                    <div class="controls">
+                        <button type="submit" name="update" class="btn btn-success"><i class="icon-ok icon-white"></i><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{ 'Save'|trans }}</button>
+
+                        {% if allow_delete %}
+                            <button type="submit" name="delete" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить папку?')"><i class="icon-trash icon-white"></i><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{ 'Delete'|trans }}</button>
+                        {% endif %}
+
+                        {% if app.request.query.has('redirect_to') and folderPath %}
+                            <a class="btn btn-default cms-cancel" href="{{ folderPath }}">{{ 'Cancel'|trans }}</a>
+                        {% else %}
+                            <a class="btn btn-default cms-cancel" href="{{ path('cms_admin_structure') }}">{{ 'Cancel'|trans }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            {{ form_end(form) }}
+        </div>
+
+            {% if not allow_delete %}
+                <p class="muted">
+                    <small>* Для удаления папки, нужно удалить из неё все вложенные папки и ноды, а также исключить из наследования в областях.</small>
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+    {% if app.request.query.has('_overlay') %}
+        <script>
+          document.querySelector('.cms-cancel').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.top.__closeIframe();
+          });
+        </script>
+        <style>
+            .if-overlay-control-group {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                z-index: 999;
+                width: 100%;
+                background: #1e282c;
+                padding: 10px 0;
+                margin: 0px !important;
+            }
+
+            .if-overlay-control-group .controls {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            .if-overlay-control-group .controls .btn {
+                margin-right: 15px;
+            }
+        </style>
+    {% endif %}
+</div>
+{% endblock content %}

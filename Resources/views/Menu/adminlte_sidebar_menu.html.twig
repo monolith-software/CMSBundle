@@ -1,0 +1,26 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block linkElement %}
+    {% import 'knp_menu.html.twig' as knp_menu %}
+
+    <a href="{{ item.uri }}"{{ knp_menu.attributes(item.linkAttributes) }}>
+        {% if item.extras.beforeCode is defined and item.extras.beforeCode %}
+            {{ item.extras.beforeCode }}
+        {% endif %}
+        <span>
+            {{ block('label') }}
+        </span>
+        {% if item.extras.afterCode is defined and item.extras.afterCode %}
+            {{ item.extras.afterCode }}
+        {% endif %}
+    </a>
+{% endblock %}
+
+{% block label %}
+    {%- set translation_domain = item.extra('translation_domain', 'messages') -%}
+    {%- set label = item.label -%}
+    {%- if translation_domain is not same as(false) -%}
+        {%- set label = label|trans(item.extra('translation_params', {}), translation_domain) -%}
+    {%- endif -%}
+    {%- if options.allow_safe_labels and item.extra('safe_label', false) %}{{ label|raw }}{% else %}{{ label }}{% endif -%}
+{% endblock %}

@@ -1,0 +1,253 @@
+Mega-Structure: МЕГА Структура
+Mega Structure: МЕГА Структура
+'Hello %name%': Привет %name%
+Action: Действие
+Actions: Действия
+Add: Добавить
+Add group: Добавить группу
+Address: Адрес
+Annotation: Аннотация
+Administration: Администрирование
+Administrator: Администратор
+Administrators: Администраторы
+Add module: Добавить модуль
+All: Все
+All installed: Все установленые
+All structure: Вся структура
+All users: Все пользователи
+Appearance: Оформление
+Appellation: Название
+Arbitrary string: Произвольная строка
+Author: Автор
+Authorized users: Авторизованные пользователи
+Backup: Резервирование
+Base settings: Основные настройки
+Block: Блок
+Block edit: Редактирование блока
+Blocks: Блоки
+Briefly: Кратко
+Bundle: Пакет
+Cancel: Отменить
+Close: Закрыть
+Code: Код
+Code before: Код перед
+Code after: Код после
+Comment: Комментарий
+Configuration: Конфигурация
+Connect module: Подключить модуль
+Control panel: Панель управления
+Controller: Контроллер
+Controls in toolbar: Управление через тулбар
+Count: Количество
+Creator: Создатель
+Create: Создать
+Create datetime: Дата создания
+Create domain: Создание домена
+Create domain alias: Создание алиаса домена
+Create domain alias for: Создание алиаса для домена
+Create folder: Создание раздела
+Create language: Создание языка
+Create node: Подключить модуль
+Create role: Создание роли
+Create site: Создание сайта
+Create user: Создание пользователя
+Create users group: Создание группы пользователей
+Created: Создано
+Created at: Дата создания
+Date: Дата
+Dashboard: Рабочий стол
+Datetime: Дата и время
+Descr: Описание
+Description: Описание
+Delete: Удалить
+Deleted at: Удалено
+Deleted folders: Удалённые разделы
+Deleted nodes: Удалённые ноды
+Dependences: Зависимости
+Design theme: Тема оформления
+Design themes: Темы оформления
+Developer: Разработчик
+Development: Разработка
+Dimension: Размер
+Disabled: Отключен
+Disables: Отключеные
+Domain: Домен
+Domain aliases: Алиасы домена
+Domains: Домены
+Edit: Редактировать
+Edit domain: Редактировние домена
+Edit domain alias: Редактирование алиаса домена
+Edit domain alias for: Редактировние алиас домена для
+Edit folder: Редактирование раздела
+Edit language: Редактирование языка
+Edit node: Редактирование ноды
+Edit site: Редактирование сайта
+Edit style: Редактирование стиля
+Edit template: Редактирование шаблона
+Edit templates and styles: Редактирование шаблонов и стилей
+Edit user: Редактирование пользователя
+Edit users group: Редактирование группы пользователей
+Editor: Редактор
+Email: Email
+Enabled: Включен
+Enables: Включеные
+Entity: Сущность
+Error: Ошибка
+Exit: Выход
+Filemanager: Управление файлами
+Filename: Имя файла
+File: Файл
+File edit: Редактирование файла
+Files: Файлы
+Folder: Раздел
+Folder edit: Редактирование раздела
+Go to site homepage: Перейти на главную страницу сайта
+Group: Группа
+Groups: Группы
+Groups granted read: Разрешение на чтение
+Groups granted write: Разрешение на запись
+Guest: Гость
+Guests: Гости
+Has inherit nodes: Наследование нод
+Help: Справка
+Height: Высота
+Homepage: Главная
+Icon: Иконка
+Image: Картинка
+Information: Информация
+Inherit in folders: Наследование в разделах
+Integer: Целое число
+Install new: Установить новый
+In progress: В работе
+Is active: Активно
+Is cached: Включить кеширование
+Is default folders granted read: По умолчанию права разделов на чтение
+Is default folders granted write: По умолчанию права разделов на запись
+Is default nodes granted read: По умолчанию права нод на чтение
+Is default nodes granted write: По умолчанию права нод на запись
+Is default regions granted read: По умолчанию права областей на чтение
+Is default regions granted write: По умолчанию права областей на запись
+Is enabled: Включено
+Is file: Является файлом?
+Is redirect: Редирект?
+Is required: Обязательный
+Is use eip: Включить EIP
+Items count: Кол-во записей
+Items per page: Записей на страницу
+Keywords: Ключевые слова
+Language: Язык
+Languages: Языки
+Last login: Последнее посещение
+Latin characters in lowercase and underlining: Латинские буквы в нижем регистре и символы подчеркивания
+Library: Библиотека
+Login: Вход
+Logout: Выход
+Lockout nodes: Блокировка нод
+Manage themes, templates and styles: Управление темами, шаблонами и стилями
+Member since: Участник с
+Menu: Меню
+Message: Сообщение
+Meta tags: Мета тэги
+My profile: Мой профиль
+Mode: Режим
+Module: Модуль
+Module linking parameters: Параметры подключения модуля
+Modules: Модули
+Modules count: Кол-во модулей
+Name: Имя
+Never: Никогда
+New site: Новый сайт
+New values: Новые значения
+New user: Новый пользователь
+Next: Следующий
+No: Нет
+Node edit: Редактирование ноды
+Nodes count: Кол-во нод
+Node properties: Кол-во нод
+Old values: Старые значения
+Only in self folder: Только в собственном разделе
+Original filename: Оригинальное имя файла
+Owner: Владелец
+Page: Страница
+Paid till date: Оплачен до
+Params: Параметры
+Params yaml: Параметры в формате YAML
+Parent folder: Родительский раздел
+Parent item: Родительский пункт
+Password Resetting: Восстановление пароля
+Path: Путь
+Permissions: Права доступа
+Phone: Телефон
+Pos: Позиция
+Position: Позиция
+Previous: Предыдущий
+Properties: Свойства
+Properties group: Группа свойств
+Provider: Провайдер
+Records: Записи
+Region: Область
+Region edit: Редактирование области
+Regions: Области
+Report: Отчёт
+Reports: Отчёты
+Priority: Приоритет
+Registred: Зарегистрирован
+Recomended: Рекомендуется
+Release date: Дата выпуска
+Required: Требуется
+Role: Роль
+Role name: Название роли
+Roles: Роли
+Role edit: Редактирование роли
+Rollback: Откатить
+Router node id: Модуль обрабатывающий маршрутизацию
+Save: Сохранить
+Screenshot: Скриншот
+Send: Отправить
+Settings: Настройки
+Sign in: Вход на сайт
+Sign in to start your session: Авторизуйтесь для начала работы
+Site: Сайт
+Sites: Сайты
+Sites list: Список сайтов
+Site structure: Структура сайта
+Size: Размер
+Slide: Слайд
+Slider: Слайдер
+Slug: Часть URI
+Status: Статус
+String: Строка
+Structure: Структура
+Styles: Стили
+System: Система
+System information: Информация о системе
+Success: Успешно
+Tag: Тэг
+Tags: Тэги
+Template: Шаблон
+Template inheritable: Наследуемый шаблон
+Template self: Собственный шаблон
+Templates: Шаблоны
+Text: Текст
+Title: Заголовок
+Theme: Тема
+Themes: Темы
+Trash: Корзина
+Type: Тип
+Value: Значение
+Version: Версия
+Viewing: Просмотр
+Uri: Ссылка
+Url: Ссылка
+Uri part: Часть адреса
+Update: Обновить
+Updated: Обновлено
+Upload: Загрузить
+Username: Имя пользователя
+User: Пользователь
+Users: Пользователи
+Users count: Кол-во пользователей
+Yes: Да
+web/: web/
+Web root: Веб корень
+Width: Ширина

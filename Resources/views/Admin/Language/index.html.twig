@@ -1,0 +1,39 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Languages'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Languages'|trans %}
+{% block page_description 'Настройка языковых и региональных параметров' %}
+{% block content_header_wrapper '' %}
+
+{% block content_body %}
+    <a href="{{ path('cms_admin_language_create') }}" class="btn btn-success">
+        <i class="icon-plus icon-white"></i><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Добавить
+    </a>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th style="width: 1%;">id</th>
+            <th>{{ 'Appellation'|trans }}</th>
+            <th>{{ 'Code'|trans }}</th>
+            <th>{{ 'Is enabled'|trans }}</th>
+            <th>{{ 'Position'|trans }}</th>
+            <th>{{ 'Created at'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in languages %}
+            <tr>
+                <td><a href="{{ path('cms_admin_language_edit', {'id': e.id}) }}">{{ e.id }}</a></td>
+                <td><a href="{{ path('cms_admin_language_edit', {'id': e.id}) }}">{{ e.name }}</a></td>
+                <td><a href="{{ path('cms_admin_language_edit', {'id': e.id}) }}">{{ e.code }}</a></td>
+                <td>{{ e.isEnabled }}</td>
+                <td>{{ e.position }}</td>
+                <td>{{ e.createdAt|format_date }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

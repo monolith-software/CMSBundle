@@ -1,0 +1,12 @@
+
+{# Проверка есть ли у юзера привелегия #}
+{{ cms_is_granted('cms:admin.section.system.theme') }}
+
+{# Проверка включен ли юзер в группу #}
+{{ cms_is_granted('group=admin') }}
+
+{# Проверка есть ли  уюзера роль (аналог is_granted()) #}
+{{ cms_is_granted('ROLE_ADMIN') }}
+
+{# Второй аргумент указывает на юзера #}
+{{ cms_is_granted('cms:admin.section.system.theme', user.id) }}

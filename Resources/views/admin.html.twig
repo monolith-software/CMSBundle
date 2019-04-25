@@ -1,0 +1,4 @@
+{% extends _overlay or app.request.query.has('_overlay')
+    ? '@CMS/layout/adminlte_overlay.html.twig'
+    : '@CMS/layout/adminlte.html.twig'
+%}

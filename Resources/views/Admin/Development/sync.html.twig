@@ -1,0 +1,37 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Development'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Development'|trans %}
+{% block page_description 'Отладка и синхронизация' %}
+{% block content_header_wrapper '' %}
+
+{% block content_body %}
+
+    Ссылка на базовый сайт:
+    {% if prod_url is not empty %}
+        <a href="{{ prod_url }}" target="_blank" title="Перейти на сайт в новой вкладке">{{ prod_url }}</a>
+        &nbsp;
+        <a href="{{ path('cms_admin_development') }}" class="btn btn-info">Локальный лог изменений</a>
+        &nbsp;
+        <a href="{{ path('cms_admin_development_db') }}" class="btn btn-info">Синхронизация БД</a>
+    {% else %}
+        [ прописывается в parameters.yml ]
+    {% endif %}
+
+    <h2>Синхронизация журнала изменений</h2>
+
+    <br>
+
+    {% if status %}
+        <a class="btn btn-success btn-large">Синхронизовано!</a>
+    {% else %}
+        <a class="btn btn-danger btn-large">Не синхронизовано!</a>
+    {% endif %}
+
+    <br>
+    <br>
+
+    <p>{{ message }}</p>
+
+{% endblock %}

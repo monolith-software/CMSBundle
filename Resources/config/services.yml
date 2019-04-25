@@ -1,0 +1,194 @@
+parameters:
+    router.class: Monolith\Bundle\CMSBundle\Router\NodeRouter
+    router.options.generator_dumper_class: Monolith\Bundle\CMSBundle\Router\PhpGeneratorDumper
+
+services:
+# Menu selected items
+    cms.menu.voter.request:
+        class: Monolith\Bundle\CMSBundle\Menu\RequestVoter
+        arguments:
+            - '@request_stack'
+            - "%admin_path%"
+        tags:
+            - { name: knp_menu.voter }
+# Twig
+    cms.twig.extension:
+        class: Monolith\Bundle\CMSBundle\Twig\CmsExtension
+        arguments: [ '@service_container' ]
+        tags:
+            - { name: twig.extension }
+    cms.twig.theme_asset_extension:
+        class: Monolith\Bundle\CMSBundle\Twig\ThemeAssetExtension
+        arguments: [ '@assets.packages', '@service_container' ]
+        tags:
+            - { name: twig.extension }
+    cms.twig.html_title_extension:
+        class: Monolith\Bundle\CMSBundle\Twig\HtmlTitleExtension
+        arguments: [ '@cms.breadcrumbs', '@settings' ]
+        tags:
+            - { name: twig.extension }
+
+# CMS
+    cms.breadcrumbs:
+        class: Monolith\Bundle\CMSBundle\Tools\Breadcrumbs
+        public: true
+    cms.router:
+        class: Monolith\Bundle\CMSBundle\Router\CmsRouter
+        public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+    cms.routes.module_admin.loader:
+        class: Monolith\Bundle\CMSBundle\Router\ModuleAdminRoutesLoader
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+            - [ setResolver,  [ '@routing.resolver' ] ]
+        tags:
+            - { name: routing.loader }
+    cms.routes.modules.loader:
+        class: Monolith\Bundle\CMSBundle\Router\ModuleRoutesLoader
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+            - [ setResolver,  [ '@routing.resolver' ] ]
+        tags:
+            - { name: routing.loader }
+    cms.context:
+        class: Monolith\Bundle\CMSBundle\Manager\ContextManager
+        public: true
+        arguments: [ '@service_container' ]
+    cms.folder:
+        class: Monolith\Bundle\CMSBundle\Manager\FolderManager
+        public: true
+        arguments: [ '@service_container' ]
+    cms.module:
+        class: Monolith\Bundle\CMSBundle\Manager\ModuleManager
+        public: true
+        arguments: [ '@kernel' ]
+    cms.node:
+        class: Monolith\Bundle\CMSBundle\Manager\NodeManager
+        public: true
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@form.factory'
+            - '@kernel'
+            - '@cms.context'
+            - '@cms.cache'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+    cms.region:
+        class: Monolith\Bundle\CMSBundle\Manager\RegionManager
+        public: true
+        arguments: [ '@doctrine.orm.default_entity_manager', '@form.factory', '@cms.context' ]
+    cms.security:
+        class: Monolith\Bundle\CMSBundle\Manager\SecurityManager
+        public: true
+        arguments: [ '@service_container' ]
+    cms.syslog:
+        class: Monolith\Bundle\CMSBundle\Manager\SyslogManager
+        public: true
+        arguments: [ '@service_container' ]
+    cms.theme:
+        class: Monolith\Bundle\CMSBundle\Manager\ThemeManager
+        public: true
+        arguments: [ '@service_container' ]
+    cms.toolbar:
+        class: Monolith\Bundle\CMSBundle\Manager\ToolbarManager
+        public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+
+# Forms
+    cms.form.type.folder:
+        class: Monolith\Bundle\CMSBundle\Form\Type\FolderFormType
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: form.type, alias: cms_folder }
+    cms.form.type.folder_tree:
+        class: Monolith\Bundle\CMSBundle\Form\Tree\FolderTreeType
+        arguments: [ '@doctrine' ]
+        tags:
+            - { name: form.type, alias: cms_folder_tree }
+    cms.form.type.node:
+        class: Monolith\Bundle\CMSBundle\Form\Type\NodeFormType
+        arguments: [ '@cms.module', '@cms.theme']
+        tags:
+            - { name: form.type, alias: cms_node }
+    cms.form.type.node_setup_controller:
+        class: Monolith\Bundle\CMSBundle\Form\Type\NodeSetupControllerFormType
+        arguments: [ '@cms.theme', '@cms.node' ]
+        tags:
+            - { name: form.type, alias: cms_node }
+    cms.form.type.user:
+        class: Monolith\Bundle\CMSBundle\Form\Type\UserFormType
+        arguments: [ '@doctrine.orm.default_entity_manager', "%user_class%" ]
+        tags:
+            - { name: form.type, alias: monolith_cms_user }
+    cms.form.type.extension.node_id:
+        class: Monolith\Bundle\CMSBundle\Form\Extension\FormTypeNodeIdExtension
+        arguments: [ '@cms.context' ]
+        tags:
+            - { name: form.type_extension, alias: form, extended_type: Symfony\Component\Form\Extension\Core\Type\BaseType }
+    cms.form.registration.admin.factory:
+        class: FOS\UserBundle\Form\Factory\FormFactory
+        public: true
+        arguments: [ '@form.factory', "%fos_user.registration.form.name%", Monolith\Bundle\CMSBundle\Form\Type\UserFormType, "%fos_user.registration.form.validation_groups%" ]
+    cms.form.profile.admin.factory:
+        class: FOS\UserBundle\Form\Factory\FormFactory
+        public: true
+        arguments: [ '@form.factory', "%fos_user.profile.form.name%", Monolith\Bundle\CMSBundle\Form\Type\UserFormType, "%fos_user.profile.form.validation_groups%" ]
+
+# Listeners
+#    controller_name_converter: # Заглушка для Symfony\Bundle\FrameworkBundle\Resources\config\web.xml т.к. этот сервис приватный.
+#        class: Monolith\Bundle\CMSBundle\Listener\ControllerNameParser
+#        arguments: [ '@kernel' ]
+#        tags:
+#            - { name: monolog.logger, channel: request }
+
+    resolve_controller_name_subscriber:
+        class: Monolith\Bundle\CMSBundle\Listener\ResolveControllerNameSubscriber
+        arguments: [ '@controller_name_converter', '@cms.node', '@kernel']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    cms.site.switch.listener:
+        class: Monolith\Bundle\CMSBundle\Listener\SiteSwitchListener
+        arguments: [ '@service_container' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onRequest }
+    cms.controller.listener:
+        class: Monolith\Bundle\CMSBundle\Listener\ModuleControllerModifierListener
+        arguments: [ '@cms.context', '@cms.folder', '@cms.module', '@cms.node', '@settings', '@twig.loader' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onController }
+    cms.request.listener:
+        class: Monolith\Bundle\CMSBundle\Listener\ModuleControllerModifierListener
+        arguments: [ '@cms.context', '@cms.folder', '@cms.module', '@cms.node', '@settings', '@twig.loader' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onRequest }
+    cms.response.listener:
+        class: Monolith\Bundle\CMSBundle\Listener\ModuleControllerModifierListener
+        arguments: [ '@cms.context', '@cms.folder', '@cms.module', '@cms.node', '@settings', '@twig.loader' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onResponse }
+    cms.view.listener:
+        class: Monolith\Bundle\CMSBundle\Listener\ModuleControllerModifierListener
+        arguments: [ '@cms.context', '@cms.folder', '@cms.module', '@cms.node', '@settings', '@twig.loader' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.view, method: onView }
+#    cms.db.table_prefix_subscriber:
+#        class: Monolith\Bundle\CMSBundle\Listener\TablePrefixSubscriber
+#        arguments: [ "%database_table_prefix%" ]
+#        public: false
+#        tags:
+#            - { name: doctrine.event_subscriber }
+    cms.doctrine_subscriber:
+        class: Monolith\Bundle\CMSBundle\Listener\DoctrineSubscriber
+        arguments: [ '@service_container' ]
+        public: true
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            #- { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            #- { name: doctrine.event_listener, event: preFlush }
+            #- { name: doctrine.event_listener, event: onFlush }
+            #- { name: doctrine.event_listener, event: postFlush }

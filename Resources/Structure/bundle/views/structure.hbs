@@ -1,0 +1,91 @@
+<ul>
+    {{#each folders}}
+        <li
+            data-node-id="{{@key}}"
+            data-node-type="folder"
+            data-jstree='{
+            "opened": true
+            {{#if is_active}}{{else}},"disabled":true{{/if}}
+        }'>
+          <span>
+            {{#if is_active}}{{title}} {{else}}<del>&nbsp;{{title}}</del> {{/if}}
+          </span>
+            <span style="color: {{#if is_active}}#0b3e6f{{else}}lightgrey{{/if}}; font-size: 13px;"> {{full_path}} </span>
+            {{#if template_self}}
+              <span style="color: {{#if is_active}}dimgrey{{else}}lightgrey{{/if}}; font-size: 13px;">(Шаблон: {{template_self}}) </span>
+            {{/if}}
+            <span class="fa fa-2x fa-pencil-square structure-node structure-node-edit"
+               data-node-type="folder"
+               data-node-id="{{@key}}"
+               title="Редактировать раздел"
+            ></span>
+            {{#if is_active}}
+            <span class="fa fa-2x fa-external-link structure-node structure-node-folder-open"
+               data-folder-path="{{full_path}}"
+               title="Перейти в раздел (откроется в новой вкладке)"
+            ></span>
+            {{/if}}
+            {{#if folders}}
+                {{> structure}}
+            {{/if}}
+            {{#if nodes}}
+                <ul>
+                    {{#each nodes}}
+                        <li
+                            data-node-id="{{@key}}"
+                            data-node-type="module"
+                            data-jstree='{
+                            "icon": "fa fa-2x fa-cube"
+                            {{#if is_active}}{{else}},"disabled":true{{/if}}
+                        }'>
+                            {{#if is_active}}
+                                {{module_short_name}}_id_{{id}}{{#if description}}: {{description}}{{/if}} <span style="color:dimgrey; font-size: 13px;">(Область: {{region}}) </span>
+                            {{else}}
+                                <del>&nbsp;{{module_short_name}}_id_{{id}}{{#if description}}: {{description}}{{/if}} <span style="color: lightgrey; font-size: 13px;">(Область: {{region}}) </span></del>
+                            {{/if}}
+                          <span class="fa fa-2x fa-cog structure-node structure-node-edit"
+                             data-node-type="module"
+                             data-node-id="{{@key}}"
+                             title="Редактировать подключение ноды"
+                          ></span>
+                          <span class="fa fa-2x fa-pencil structure-node structure-node-edit-texter"
+                             data-node-type="module"
+                             data-node-module="{{module_short_name}}"
+                             data-node-text-id="{{params.text_item_id}}"
+                             title="Редактировать содержимое Texter'a"
+                          ></span>
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>
+<style>
+  .fa-2x {
+    font-size: 18px !important;
+    color: dimgrey;
+  }
+  .structure-node {
+    visibility: hidden;
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
+  }
+  .structure-node:hover {
+    color: #0a6aa1;
+  }
+  a.jstree-anchor:hover .structure-node {
+    visibility: visible;
+  }
+  .structure-node-edit-texter {
+    visibility: hidden;
+  }
+  .structure-node-edit-texter {
+    display: none;
+  }
+  .structure-node-edit-texter[data-node-module="Texter"] {
+    display: inline-block;
+  }
+
+</style>

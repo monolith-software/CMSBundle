@@ -1,0 +1,122 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  font-size: 10pt;
+}
+a {
+  color: #337ab7;
+}
+a:hover {
+  color: #23527c;
+  text-decoration: underline;
+}
+h3 {
+  margin-top: 10px;
+}
+.form-button {
+  margin: 3px 0px 5px 20px;
+  float: left;
+}
+.well {
+  padding-bottom: 45px;
+}
+.nav-tabs > li {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  font-size: 120%;
+}
+label span {
+  color: red;
+}
+.form-horizontal {
+  margin: 5px 0 5px;
+}
+.form-horizontal .control-group {
+  margin-bottom: 12px;
+}
+.form-horizontal .control-label {
+  float: left;
+  width: 200px;
+  padding-right: 5px;
+}
+.form-horizontal .controls {
+  margin-left: 210px;
+}
+.form-horizontal option[selected=selected],
+.form-control option[selected=selected] {
+  color: blue;
+  font-weight: bold;
+}
+.form-vertical .checkbox {
+  margin-left: 0;
+}
+label.checkbox {
+  /*margin-left: 20px;*/
+}
+.radio label, .checkbox label {
+  padding-left: 0;
+}
+.icheckbox_square-blue {
+  background-color: white;
+}
+
+input[placeholder]               {text-overflow:ellipsis;}
+input::-webkit-input-placeholder {color:#cdcdcd !important; font-style: italic; text-overflow:ellipsis;}
+input::-moz-placeholder          {color:#cdcdcd !important; font-style: italic; text-overflow:ellipsis;}
+input:-moz-placeholder           {color:#cdcdcd !important; font-style: italic; text-overflow:ellipsis;}
+input::placeholder               {color:#cdcdcd !important; font-style: italic; text-overflow:ellipsis;}
+input:-ms-input-placeholder      {color:#cdcdcd !important; font-style: italic; text-overflow:ellipsis;}
+input:-ms-input-placeholder      {color:#cdcdcd !important; font-style: italic; text-overflow:ellipsis;}
+
+.cms-site-switcher {
+  margin: 14px;
+  color: #b8c7ce;
+}
+
+.cms-site-switcher select {
+  width: 150px;
+  color: black;
+}
+
+.cms-site-switcher option[selected=selected] {
+  color: blue;
+  font-weight: bold;
+}
+
+/* Сброс настроек AdminLTE */
+.content-wrapper {
+  background-color: #f1f1f1;
+}
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+.nav-pills > li > a {
+  border-radius: 4px;
+  border-top: 0px solid transparent;
+}
+.tab-content {
+  margin-top: 20px;
+}
+.main-footer {
+  color: gray;
+  padding: 8px;
+  font-size: 80%;
+}
+.main-footer:hover {
+  color: #000000;
+}
+.modal-body table em {
+  color: red;
+}
+.sidebar-menu > li > a {
+  padding: 10px 5px 10px 15px;
+}
+.skin-blue .sidebar-menu > li.header {
+  /*color: #4b646f;*/
+  color: #6c8792;
+  text-transform: uppercase;
+}
+.login-logo a {
+  text-decoration: none;
+}

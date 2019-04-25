@@ -1,0 +1,94 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Development'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Development'|trans %}
+{% block page_description 'Отладка и синхронизация' %}
+{% block content_header_wrapper '' %}
+
+{% block content_body %}
+
+    Ссылка на базовый сайт:
+    {% if prod_url is not empty %}
+        <a href="{{ prod_url }}" target="_blank" title="Перейти на сайт в новой вкладке">{{ prod_url }}</a>
+        &nbsp;
+        <a href="{{ path('cms_admin_development_sync') }}" class="btn btn-info">Синхронизация</a>
+        &nbsp;
+        <a href="{{ path('cms_admin_development_db') }}" class="btn btn-info">Синхронизация БД</a>
+    {% else %}
+        [ прописывается в parameters.yml ]
+    {% endif %}
+
+    <h2>Журнал изменений</h2>
+
+    <table class="table table-bordered table-hover billing-main-table">
+        <thead><tr>
+            <th>{{ 'Date'|trans }}</th>
+            <th>{{ 'Action'|trans }}</th>
+            <th>{{ 'Entity'|trans }}</th>
+            <th>{{ 'Old values'|trans }}</th>
+            <th>{{ 'New values'|trans }}</th>
+            <th>{{ 'User'|trans }}</th>
+        </tr></thead>
+        <tbody>
+
+        {% for syslog in pagerfanta.currentPageResults %}
+            <tr>
+                <td>{{ syslog.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ syslog.action }}</td>
+                <td>{{ syslog.bundle }}:{{ syslog.entity }}
+                    {% if syslog.entity == 'Folder' %}
+                        <a href="{{ path('cms_admin_structure_folder', {'id': syslog.entityId}) }}"><b>{{ cms_folder(syslog.entityId) }}</b></a> (id: {{ syslog.entityId }})
+                    {% else %}
+                        <b>{{ syslog.entityId }}</b>
+                    {% endif %}
+                </td>
+                <td>
+                    <ul>
+                        {% for key, val in syslog.oldValue %}
+                            <li>{{ key }}:
+                                {% if val is iterable  %}
+                                    {{ dump(val) }}
+                                {% elseif syslog.entity == 'Folder' and key == 'parent_folder' %}
+                                    <b>{{ cms_folder(val) }}</b> (id: {{ val }})
+                                {% else %}
+                                    {{ val|e }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for key, val in syslog.newValue %}
+                            <li>{{ key }}:
+                                {% if val is iterable  %}
+                                    {{ dump(val) }}
+                                {% elseif syslog.entity == 'Folder' and key == 'parent_folder' and val is not empty %}
+                                    <b>{{ cms_folder(val) }}</b> (id: {{ val }})
+                                {% else %}
+                                    {{ val|e }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    {% if syslog.user %}
+                        <a>{{ syslog.user }}</a> (id: {{ syslog.user.id }})
+                    {% else %}
+                        n/a
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% if pagerfanta.haveToPaginate %}
+        <p> Страница: {{ pagerfanta.currentPage }} Записей на страницу: {{ pagerfanta.maxPerPage }}</p>
+        {{ pagerfanta(pagerfanta, 'twitter_bootstrap_translated', {'css_container_class': 'pagination pagination-centered'}) }}
+    {% endif %}
+
+{% endblock %}

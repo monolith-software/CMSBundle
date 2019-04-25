@@ -1,0 +1,33 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Appearance'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Appearance'|trans %}
+{% block page_description 'Manage themes, templates and styles'|trans %}
+
+{% block content %}
+
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">SiteBundle</h3>
+        </div>
+
+        <div class="box-body">
+            <h3>{{ 'Templates'|trans }} <small>{{ templates_path }}</small></h3>
+            <ul class="nav nav-tabs">
+                {% for template in templates %}
+                    <li><a href="{{ path('cms_admin_appearance_template', {'name': template}) }}">{{ template }}</a></li>
+                {% endfor %}
+            </ul>
+
+            <h3>{{ 'Styles'|trans }} <small>{{ styles_path }}</small></h3>
+            <ul class="nav nav-pills">
+                {% for style in styles %}
+                    <li><a href="{{ path('cms_admin_appearance_style', {'name': style}) }}">{{ style }}</a></li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+
+{% endblock content %}

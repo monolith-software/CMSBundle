@@ -1,0 +1,43 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Modules'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Modules'|trans %}
+{% block content_header_wrapper '' %}
+
+{% block content_top %}
+    {{ knp_menu_render('CMSBundle:AdminMenu:modules', {'currentClass': 'active'})  }}
+{% endblock %}
+
+{% block content_body %}
+    <p>{{ 'Count'|trans }}: {{ modules|length }}</p>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>{{ 'Appellation'|trans }}</th>
+            <th>{{ 'Description'|trans }}</th>
+            <th>{{ 'Dependences'|trans }}</th>
+            <th>{{ 'Version'|trans }}</th>
+            <th>{{ 'Release date'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in modules %}
+            <tr>
+                <td title="{{ e.path }}">{{ e.bundle }}</td>
+                <td>{{ e.description }}</td>
+                <td>{% if e.require is not empty %}
+                        <ul>
+                        {% for package, ver in e.require %}
+                            <li>{{ package }}: {{ ver }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+                <td>{{ e.version }}</td>
+                <td>{{ e.time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

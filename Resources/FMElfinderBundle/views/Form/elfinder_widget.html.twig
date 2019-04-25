@@ -1,0 +1,17 @@
+{% block elfinder_widget %}
+    <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} data-type="elfinder-input-field" class="form-control">
+    {% if enable and instance is defined %}
+        <script type="text/javascript" charset="utf-8">
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var input = document.querySelector('[data-type="elfinder-input-field"][id="{{ id }}"]');
+                input.addEventListener('click', function (event) {
+                    var childWin = window.open("{{path('elfinder', {'instance': instance, 'homeFolder': homeFolder })}}?id={{ id }}", "popupWindow", "height=450, width=900");
+                })
+            });
+
+            function setValue(value, element_id) {
+                document.querySelector('[data-type="elfinder-input-field"]' + (element_id ? '[id="'+ element_id +'"]': '')).value = value;
+            }
+        </script>
+    {% endif %}
+{% endblock %}

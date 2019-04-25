@@ -1,0 +1,35 @@
+<ul>
+    {{#each folders}}
+        <li
+            data-node-id="{{@key}}"
+            data-node-type="folder"
+            data-jstree='{
+            "opened": true
+            {{#if is_active}}{{else}},"disabled":true{{/if}}
+        }'>
+            {{#if is_active}}{{title}}{{else}}<strike>&nbsp;{{title}}</strike>{{/if}}
+            {{#if folders}}
+                {{> structure}}
+            {{/if}}
+            {{#if nodes}}
+                <ul>
+                    {{#each nodes}}
+                        <li
+                            data-node-id="{{@key}}"
+                            data-node-type="module"
+                            data-jstree='{
+                            "icon": "fa fa-cube"
+                            {{#if is_active}}{{else}},"disabled":true{{/if}}
+                        }'>
+                            {{#if is_active}}
+                                {{module_short_name}}
+                            {{else}}
+                                <strike>&nbsp;{{module_short_name}}</strike>
+                            {{/if}}
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>

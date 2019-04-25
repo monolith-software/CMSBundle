@@ -1,0 +1,11 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Create domain'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Domain'|trans %}
+{% block page_description 'Настройка сайтов и доменов' %}
+{% block content_header 'Create domain'|trans %}
+
+{% block content_body %}
+    {% include '@CMS/Form/default.html.twig' %}
+{% endblock %}

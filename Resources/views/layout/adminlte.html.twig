@@ -1,0 +1,275 @@
+{% extends '@Html/base.html.twig' %}
+
+{% set use_libs = {
+    'bootstrap': '3',
+    'bootstrap-datepicker': null,
+    'bootstrap-daterangepicker': null,
+    'fastclick': null,
+    'font-awesome': null,
+    'ionicons': null,
+    'jvectormap': null,
+    'jquery-slimscroll': null,
+    'jquery-ui': null,
+    'morris.js': null,
+    'pnotify': null,
+} %}
+
+{% block title -%}
+    {{ 'Control panel'|trans }} / Monolith CMS
+{%- endblock %}
+
+{% block meta -%}
+    {{ parent() }}
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+{% endblock %}
+
+{% block styles -%}
+    {{ parent() }}
+
+    {% if app.debug -%}
+        <link href="{{ asset('bundles/felib/adminlte/css/AdminLTE.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/felib/adminlte/css/skins/skin-blue.css') }}" rel="stylesheet" type="text/css" />
+    {% else -%}
+        <link href="{{ asset('bundles/felib/adminlte/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/felib/adminlte/css/skins/skin-blue.min.css') }}" rel="stylesheet" type="text/css" />
+    {%- endif %}
+    <style media="all" type="text/css">
+        @import url({{ asset('bundles/felib/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }});
+        @import url({{ asset('bundles/felib/adminlte/plugins/iCheck/square/blue.css') }});
+    </style>
+    <link href="{{ asset('bundles/cms/css/adminlte_custom.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/cms/css/bootstrap3-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/cms/css/select2.min.css') }}" rel="stylesheet" />
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 34px;
+            font-size: 14px;
+            padding-left: 10px;
+            border: 1px solid #d2d6de;
+            border-radius: 0;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #555 transparent transparent transparent;
+            border-style: solid;
+            border-width: 6px 3px 0 3px;
+            height: 0;
+            left: 50%;
+            margin-left: 0px;
+            margin-top: 0px;
+            position: absolute;
+            top: 50%;
+            width: 0;
+        }
+        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b{
+            border-color: transparent transparent #555 transparent;
+            border-width: 0 3px 6px 3px;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts -%}
+    {{ parent() }}
+{%- endblock %}
+
+{% block body_js %}
+    {{ parent() }}
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    {#<script src="/adminlte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>#}
+    {#<script src="/adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>#}
+    <script src="{{ asset('bundles/felib/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+    <script src="{{ asset('bundles/felib/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('bundles/felib/adminlte/js/adminlte.min.js') }}"></script>
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' /* optional */
+            });
+        });
+    </script>
+    <script src="{{ asset('bundles/cms/js/select2.min.js') }}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(event) {
+        $('select').select2();
+      });
+    </script>
+{% endblock body_js %}
+
+{% if form is defined %}
+    {% form_theme form '@CMS/Form/bootstrap_wide.html.twig' %}
+{% endif %}
+
+{% block body_attr %}{{ parent() }} class="skin-blue sidebar-mini sidebar-collapse__"{% endblock body_attr %}
+
+{% block body %}
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        <header class="main-header">
+
+            <!-- Logo -->
+            {% block logo %}
+            <a href="{{ path('cms_admin_index') }}" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>C</b>MS</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Monolith</b> CMS</span>
+            </a>
+            {% endblock logo %}
+
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+                {# @todo сделать стиль для вставки элементов в тулбар прилепленные влево.
+                <a href="#" class="sidebar-toggle" >
+                    123
+                </a>
+                #}
+
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+
+                        {% block link_to_site %}
+                        <li><a class="" href="{{ app.request.baseUrl }}/" title="Перейти на сайт {{ cms_context().site }}"><i class="fa fa-home"></i> На сайт</a></li>
+                        {% endblock %}
+
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- The user image in the navbar-->
+                                <img src="{{ asset('bundles/felib/adminlte/img/avatar5.png') }}" class="user-image" alt="User Image"/>
+                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                <span class="hidden-xs">{{ app.user.userName }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img src="{{ asset('bundles/felib/adminlte/img/avatar5.png') }}" class="img-circle" alt="User Image" />
+                                    <p>
+                                        {{ app.user.userName }}
+                                        <small>{{ 'Member since'|trans }} {{ app.user.createdAt|format_date }}</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="{{ path('cms_admin_user_edit', {'id': app.user.id}) }}" class="btn btn-default btn-flat">{{ 'My profile'|trans }}</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="{{ logout_path() }}" class="btn btn-default btn-flat">{{ 'Exit'|trans }}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                {% block main_sidebar -%}
+
+                    {% set sites = cms_sites_switcher() %}
+                    {% if sites|length > 1 %}
+                    <div class="cms-site-switcher">
+                    <form method="post" action="{{ path('cms_admin_site_switch_selected') }}" name="cms-site-switcher">
+                        <input type="hidden" name="route" value="cms_admin_index">
+                        <select name="site" onchange="this.form.submit()">
+                            {% for s in sites %}
+                                {% if s.selected == s.id %}
+                                    <option selected="selected" value="{{ s.id }}">{{ s.name }}</option>
+                                {% else %}
+                                    <option value="{{ s.id }}">{{ s.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </form>
+                    </div>
+                    {% endif %}
+
+                    <!-- Sidebar Menu -->
+                    {{ knp_menu_render('CMSBundle:AdminMenu:main', {
+                        'currentClass': 'active',
+                        'clear_matcher': false,
+                        'template': 'CMSBundle:Menu:adminlte_sidebar_menu.html.twig',
+                    })}}
+                {% endblock main_sidebar -%}
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            {% block page_headers -%}
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>{% block page_header '' -%} &nbsp;&nbsp;<small>{% block page_description '' -%}</small> </h1>
+
+                {% block breadcrumbs '' -%}
+            </section>
+            {% endblock %}
+
+            <!-- Main content -->
+            <section class="{% block content_class 'content' %}">
+                <!-- Your Page Content Here -->
+                {% include '@SmartCore/pnotify_flash_messages.html.twig' -%}
+
+                {% block content_top '' %}
+
+                {% block content -%}
+                    <div class="box"> {# @todo цвета #}
+
+                        {% block content_header_wrapper %}
+                        <div class="box-header with-border">
+                            <h3 class="box-title">{%- block content_header '' -%}</h3>
+                        </div>
+                        {% endblock content_header_wrapper %}
+
+                        <div class="box-body">
+                            {% block content_body '' -%}
+                        </div>
+                    </div>
+                {% endblock content -%}
+            </section><!-- /.content -->
+
+        </div><!-- /.content-wrapper -->
+
+        <!-- Main Footer -->
+        {% block footer -%}
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                <b>Monolith</b> CMS
+            </div>
+            <!-- Default to the left -->
+            Copyright &copy; {{ "now"|date('Y') }} <a href="http://monolith-studio.ru/" target="_blank">Monolith Studio</a>. All rights reserved.
+            <span style="margin-left: 50px;">{{ simple_profiler() }}</span>
+        </footer>
+        {%- endblock footer %}
+
+    </div><!-- ./wrapper -->
+{% endblock body %}

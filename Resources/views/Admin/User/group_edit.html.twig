@@ -1,0 +1,25 @@
+{% extends '@CMS/Admin/User/index.html.twig' %}
+
+{% block title %}{{ 'Edit users group'|trans }}: &laquo;{{ form.vars.value.name }}&raquo; / {{ parent() }}{% endblock %}
+
+{% block content_admin_users %}
+    <h3>{{ 'Edit users group'|trans }} &laquo;{{ form.vars.value.name }}&raquo;</h3>
+
+    <div class="row">
+        <div class="col-md-8">
+            {% include '@CMS/Form/default.html.twig' %}
+        </div>
+        <div class="col-md-4">
+            <h4>{{ 'Roles'|trans }}</h4>
+            <ul>
+                {% for role in form.vars.value.roles %}
+                    {#{% if role != 'ROLE_USER' %}#}
+                    <li>{{ role }}</li>
+                    {#{% endif %}#}
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+
+{% endblock %}

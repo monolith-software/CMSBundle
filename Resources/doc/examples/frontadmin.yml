@@ -1,0 +1,54 @@
+
+flash: # Всплывающие уведомления, например https://sciactive.com/pnotify/#demos-simple
+    (my_message_name): # произвольное имя
+        color: green
+        content: Тестовое сообщение.
+toolbar:
+    (my_menu_item_name):
+        type: menu # тип элемента menu, в принципе сейчас уже достаточно хорошо реализовано, надо
+        float: left # позиционирование, по умолчанию left
+        title: Заголовок пункта # не обязательно, если нету заголовка, то будет отображена только иконка.
+        description: Описание всплывающее при наведении мышки # не обязательно
+        icon: 'dashboard' # не обязательно
+        method: plain # метод обработки клика по ссылке:
+                      # plain - обычный пеореход (по умолчанию),
+                      # blank - обычный пеореход в новом окне барузера,
+                      # modal - всплывающее окно
+        uri: '/admin/'
+        labels: # цветные метки (в бутстрапе это labels или badges)
+            red: 5 # самый короткий формат цвет -> значение
+            green: # формат с описанием
+                value: 10
+                description: Описание всплывающее при наведении мышки # не обязательно
+            my_label: # полный формат, при котором можно добавить несколько меток одинакового цвета
+                color: yellow
+                value: 20
+                description: Описание всплывающее при наведении мышки # не обязательно
+        items: # вложенные пункты меню, имеют такуюже структуру итема, но "type", "float" будет игнорироваться
+            []
+    (my_button_item_name): # формат описания идентичен menu
+        type: button # тип элемента http://getbootstrap.com/docs/3.3/components/#btn-dropdowns-split
+    (my_user_profile_item_name):
+        float: right
+        type: user_profile
+        photo: /img/my_photo.jpg
+        username: Моё Имя
+        profile:
+            title: Профиль
+            path: /admin/system/user/1/
+        logout:
+            title: Выход
+            path: /admin/logout
+    (my_notification_item_name):
+        float: right
+        type: notification # уведомления, например можно подсмотреть в AdminLTE, битриксе, трелло, vk... в общем надо подумать ещё.
+        count: 10
+        color: red # цвет метки счётчика
+        icon: 'bell'
+        items:
+            (my_item_name):
+                html: '<div> some code... </div>' # возможность встраивать произвольный хтмл
+nodes:
+    # структура элементов аналогична, как для тулбара, но по умолчанию тип button
+    (my_div_node_id): # обычно __node_{id}
+        type: button # по умолчанию

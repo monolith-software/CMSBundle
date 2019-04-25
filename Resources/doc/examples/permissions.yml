@@ -1,0 +1,24 @@
+(parmission_name):
+    default: false
+    roles: ROLE_ADMIN # or array [ROLE_ADMIN, ROLE_ADMIN_SITE]
+    parent: (another_parmission_name)
+
+# -------------------------------------------------------------------
+
+admin.panel.access: # Доступ в админку через файрвол симфони
+    default: false    # Значение по умолчанию для новых групп
+    roles: ROLE_ADMIN # При включении этого доступа в группу, группе будет назначена данная роль
+    always_for_groups: admin #
+admin.section.system: false # Ниже видно, что этот доступ закрывает всё управление структурой т.к. является для некоторых доступов родительским.
+admin.section.system.site:
+    default: true
+    parent: admin.section.system # Родительская группа, значение которой в приоритете
+    roles: [ ROLE_ADMIN, ROLE_ADMIN_SITE ] # Более короткая запись.
+admin.section.system.structure:
+    default: true
+    parent: admin.section.system # Родительская группа, значение которой в приоритете
+admin.section.system.theme:
+    default: true
+    parent: admin.section.system # Родительская группа, значение которой в приоритете
+admin.manage.groups: false # Управление группами
+admin.modules: false # Управление модулями (включение, отключение, установка, удаление

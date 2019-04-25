@@ -1,0 +1,61 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Design themes'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Design themes'|trans %}
+{% block page_description 'Manage themes, templates and styles'|trans %}
+
+{% block content %}
+<div class="box">
+    <div class="box-body">
+        <table class="table table-bordered table-hover">
+            <tbody>
+            {% for name, e in themes %}
+                <tr>
+                    <td style="width: 200px;">
+                        {% set first = true %}
+                        {% for img_filename in e.screenshots if first %}
+                            <a href="{{ path('cms_admin_theme_show', {'name': name}) }}">
+                                <img src="{{ path('cms_admin_theme_get_screenshot', {'theme': name, 'filename': img_filename}) }}" width="200">
+                            </a>
+                            {% set first = false %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <h3 style="margin-top: 0; line-height: 20px;"><a href="{{ path('cms_admin_theme_show', {'name': name}) }}">{{ e.title }}</a></h3>
+
+                        {% if e.description is not empty %}
+                            <p><strong>{{ 'Description'|trans }}:</strong> {{ e.description }}</p>
+                        {% endif %}
+
+                        {#{{ dump(e) }}#}
+                    </td>
+                    <td style="min-width: 260px;">
+                        {% if e.version is not empty %}
+                            <p><strong>{{ 'Version'|trans }}:</strong> {{ e.version|raw }}</p>
+                        {% endif %}
+
+                        {% if e.developer is not empty %}
+                            <p><strong>{{ 'Developer'|trans }}:</strong> {{ e.developer }}</p>
+                        {% endif %}
+
+                        <p><strong>{{ 'Regions'|trans }}</strong></p>
+                        <ul>
+                            {% for region_name, region_title in e.regions %}
+                                <li>{{ region_name }}
+                                    ({%- if region_title is iterable -%}
+                                        {{ region_title['title'] }}
+                                    {%- else -%}
+                                        {{ region_title }}
+                                    {%- endif -%})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

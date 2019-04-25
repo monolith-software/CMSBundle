@@ -1,0 +1,55 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Users'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Users'|trans %}
+
+{% block content %}
+    {{ knp_menu_render('CMSBundle:AdminMenu:user', { 'currentClass': 'active', 'clear_matcher': true })}}
+
+<div class="box">
+    <div class="box-body">
+
+        {% block content_admin_users %}
+    <table class="table table-bordered table-hover">
+        <thead><tr>
+            <th>#</th>
+            <th>{{ 'Username'|trans }}</th>
+            <th>{{ 'Email'|trans }}</th>
+            <th>{{ 'Status'|trans }}</th>
+            <th>{{ 'Groups'|trans }}</th>
+            <th>{{ 'Registred'|trans }}</th>
+            <th>{{ 'Last login'|trans }}</th>
+        </tr></thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><a href="{{ path('cms_admin_user_edit', {'id': user.id}) }}">{{ user.username }}</a></td>
+                <td><a href="{{ path('cms_admin_user_edit', {'id': user.id}) }}">{{ user.email }}</a></td>
+                <td>
+                    {% if user.enabled %}
+                        <span class="label label-success label-important">Активен</span>
+                    {% else %}
+                        <span class="label label-danger label-important">Не Активен</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.groups is not empty %}
+                    <ul>
+                        {% for group in user.groups %}
+                            <li>{{ group }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+                <td>{{ user.createdAt|format_date() }}</td>
+                <td>{% if user.lastLogin %}{{ user.lastLogin|format_date() }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% endblock content_admin_users %}
+    </div>
+</div>
+{% endblock content %}

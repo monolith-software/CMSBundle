@@ -1,0 +1,62 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Mega Structure'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Mega Structure'|trans %}
+{% block page_description 'Управление разделами, нодами и областями контента сайта' %}
+
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_header_wrapper '' %}
+
+{% block content_body %}
+
+    <div class="control-panel">
+        {#<a id="multiple-control" class="fa fa-2x fa-square-o" href="" title="Множественное изменение объектов структуры"></a>#}
+        {#<a id="expand" class="fa fa-2x fa-expand" href="" title="Развернуть дерево"></a>#}
+        <a href="#" id="dnd-true" style="color: white" class="btn btn-primary">Включить drag'n'drop</a>
+        <a href="#" id="create-folder" style="color: white" class="btn btn-primary">Создать раздел</a>
+        <a href="#" id="plug-module" style="color: white" class="btn btn-primary">Подключить модуль</a>
+    </div>
+
+    <div class="structure-container">
+        <div class="loader">
+            <i class="fa fa-spin fa-refresh spinner"></i>
+        </div>
+        <div id="structure">
+        </div>
+    </div>
+
+    <style>
+
+    </style>
+
+    <script>
+        window.__sendNotice = function (type, message) {
+          new PNotify({
+            title: message,
+            type: type
+          });
+          setTimeout(function () {
+            document.querySelector('.featherlight-close').click();
+          }, 500);
+
+          var event = new Event('change:structure');
+          document.dispatchEvent(event);
+        };
+
+        window.__closeIframe = function () {
+          document.querySelector('.featherlight-close').click();
+        };
+    </script>
+    <script type="text/javascript" src="{{ asset('bundles/cms/bundle/bundle.js') }}"></script>
+    <link href="{{ asset('bundles/cms/css/style.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('bundles/cms/css/vendor.css') }}" rel="stylesheet" type="text/css"/>
+
+{% endblock %}

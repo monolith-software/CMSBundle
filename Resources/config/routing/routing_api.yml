@@ -1,0 +1,40 @@
+
+cms_api_syslog:
+    path: /syslog/
+    defaults:
+        _controller: CMSBundle:Api:syslog
+
+cms_api_get_database_dump:
+    path: /get_db_dump/
+    defaults:
+        _controller: CMSBundle:Api:getDatabaseDump
+
+cms_api:
+    path: /
+    defaults:
+        _controller: CMSBundle:FrontEnd:apiNotFound
+
+cms_api_node_index:
+    path: /{node_id}/
+    defaults:
+        _controller: CMSBundle:FrontEnd:api
+        slug: ''
+    requirements:
+        node_id: \d+
+
+cms_api_node:
+    path: /{node_id}/{slug}
+    defaults:
+        _controller: CMSBundle:FrontEnd:api
+        slug: ''
+    requirements:
+        slug: '.+'
+        node_id: \d+
+
+cms_api_not_found:
+    path: /{slug}
+    defaults:
+        _controller: CMSBundle:FrontEnd:apiNotFound
+        slug: ''
+    requirements:
+        slug: '.+'

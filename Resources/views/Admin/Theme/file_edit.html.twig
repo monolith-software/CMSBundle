@@ -1,0 +1,108 @@
+{% extends '@CMS/Admin/Theme/index.html.twig' %}
+
+{% block title %}{{ 'File edit'|trans }}: /{{ theme.dirname }}/{{ dir }}/{{ relativePathname }} / {{ parent() }}{% endblock %}
+
+{% block page_headers '' %}
+{% block footer '' %}
+
+{%  if fileExtension == 'ico'
+    or fileExtension == 'gif'
+    or fileExtension == 'jpeg'
+    or fileExtension == 'jpg'
+    or fileExtension == 'png'
+%}
+    {% set is_image = true %}
+{% else %}
+    {% set is_image = false %}
+{% endif %}
+
+{% block styles -%}
+    {{ parent() }}
+    <style type="text/css" media="screen">
+        body {
+            margin-bottom: 0px;
+        }
+        .ace_editor * {
+            font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+            font-size: 14px;
+        }
+        #ace_editor2 {
+            font-family: consolas, Courier, monospace;
+            font-size: 14px;
+            width: 100%;
+            height: 500px;
+            top: 0px;
+        }
+    </style>
+{% endblock %}
+
+{% block body_js %}
+{{ parent() }}
+{% if is_image == false %}
+    <script src="{{ asset('bundles/felib/ace/ace.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script>
+        {% if fileExtension == 'js' %}
+        {% set fileExtension = 'javascript' %}
+        {% endif %}
+
+        $('#code_wrapper').append('<div id="ace_editor2" />');
+
+        var editor = ace.edit('ace_editor2');
+        var textarea = $('textarea[name="code"]').hide();
+        //editor.setTheme('ace/theme/idle_fingers');
+        editor.setTheme('ace/theme/{{ setting('cms:appearance_editor_theme') }}');
+        editor.focus();
+        editor.getSession().setMode('ace/mode/{{ fileExtension }}');
+        //editor.getSession().setValue($('#template_code_cache').text());
+        editor.getSession().setValue(textarea.val());
+        {# @todo запоминание позиции курсора через куки #}
+        //editor.gotoLine(60, 15, true);
+        //editor.moveCursorTo(60, 15);
+        //editor.scrollToLine(60);
+        editor.getSession().on('change', function(){
+            textarea.val(editor.getSession().getValue());
+        });
+        editor.commands.addCommand({
+            name: 'insetAsset',
+            bindKey: {win: 'Alt-A',  mac: 'Command-A'},
+            exec: function(editor) {
+                editor.insert("{{ '{{' }} asset('') {{ '}}' }}");
+            }
+        });
+
+        function setHeight(){
+            $('#ace_editor2').css('height', $(window).height() - 125 + 'px'); // 125
+        };
+
+        $(window).resize(function(){
+            setHeight();
+        });
+
+        setHeight();
+    </script>
+{% endif %}
+{% endblock body_js %}
+
+{% block content %}
+{% if is_image %}
+    <p style="float: left;">{{ 'File edit'|trans }}: /{{ theme.dirname }}/{{ dir }}/{{ relativePathname }}</p>
+
+    <a style="float: right; margin-bottom: 8px; margin-right: 8px" class="btn btn-default btn-sm" href="{{ path('cms_admin_theme_show', {'name': theme.dirname}) }}">{{ 'Cancel'|trans }}</a>
+
+    <div style="clear: both"></div>
+
+    <img src="{{ asset('bundles/site/theme/') }}{{ theme.dirname }}/{{ relativePathname }}" style="max-width: 80%">
+{% else %}
+    <form id="code_wrapper" action="" method="post" style="margin-bottom: 0px;">
+        <button style="float: right; margin-bottom: 8px;" class="btn btn-success btn-sm" type="submit" name="submit" value="save">{{ 'Save'|trans }}</button>
+
+        <a style="float: right; margin-bottom: 8px; margin-right: 8px" class="btn btn-default btn-sm" href="{{ path('cms_admin_theme_show', {'name': theme.dirname}) }}">{{ 'Cancel'|trans }}</a>
+
+        <p style="float: left;">{{ 'File edit'|trans }}: /{{ theme.dirname }}/{{ dir }}/{{ relativePathname }}</p>
+
+        <div style="clear: both;"></div>
+
+        <textarea name="code" data-editor="{{ fileExtension }}" class=" input-block-level">{{ code|e }}</textarea>
+    </form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if includeAssets %}
+        {{ include("@FMElfinder/Elfinder/helper/assets_css.html.twig") }}
+    {% endif %}
+</head>
+<body>
+{% if includeAssets %}
+    {{ include("@FMElfinder/Elfinder/helper/assets_js.html.twig") }}
+{% endif %}
+<script type="text/javascript" charset="utf-8">
+    $().ready(function() {
+        var $f = $('.elfinder').elfinder({
+            url : '{{path('ef_connect', { 'instance': instance, 'homeFolder': homeFolder } )}}',
+            lang : '{{locale}}',
+            onlyMimes: {{ onlyMimes|raw }},
+            getFileCallback: function(file) {
+                {% if relative_path %}
+                    window.opener.setValue('{{ pathPrefix }}'+file.url.replace("{{ app.request.schemeAndHttpHost }}/", ""), "{{ id }}");
+                {% else %}
+                    window.opener.setValue(file.url, "{{ id }}");
+                {% endif %}
+                window.close();
+            },
+            uiOptions : {
+                toolbar: [
+                    ['back', 'forward', 'up'],
+                    ['upload'],
+                    ['open', 'download'],
+                    ['undo', 'redo'],
+                    ['copy', 'cut', 'paste', 'rm'],
+                    ['duplicate', 'rename', 'edit', 'resize', 'chmod'],
+                    ['selectall', 'selectnone', 'selectinvert'],
+                    ['quicklook', 'info'],
+                    ['extract', 'archive'],
+                    ['search'],
+                    ['view', 'sort'],
+                    ['help']
+                ]
+            }
+        });
+
+    {% if fullscreen %}
+    var $window = $(window);
+    $window.resize(function(){
+        var $win_height = $window.height();
+        if( $f.height() != $win_height ){
+            $f.height($win_height).resize();
+        }
+    });
+    {% endif %}
+    });
+</script>
+<div class="elfinder"></div>
+</body>
+</html>

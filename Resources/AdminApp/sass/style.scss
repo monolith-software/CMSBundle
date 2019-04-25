@@ -1,0 +1,44 @@
+// Переменные
+$color-icon:        #222d32;
+$color-icon-hover:  #2d586c;
+
+.structure-container {
+  position: relative;
+}
+.loader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  background: transparent;
+}
+.loader-active {
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.15);
+}
+.spinner {
+  position: absolute;
+  left: calc(50% - 8px);
+  top: calc(50% - 8px);
+}
+
+#structure>ul>li>a>i.jstree-checkbox {
+  display: none;
+}
+
+.control-panel {
+  margin-bottom: 15px;
+  padding-left: 10px;
+  a {
+    text-decoration: none;
+    cursor: pointer;
+    color: $color-icon;
+    margin-right: 5px;
+    &:hover {
+      color: $color-icon-hover;
+    }
+  }
+}

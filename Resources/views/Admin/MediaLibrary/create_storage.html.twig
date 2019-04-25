@@ -1,0 +1,9 @@
+{% extends '@CMS/Admin/MediaLibrary/index.html.twig' %}
+
+{% block title %}{{ 'Создание хранилища'|trans }} / {{ parent() }}{% endblock %}
+
+{% block content_header 'Создание хранилища'|trans %}
+
+{% block content_body %}
+    {% include '@CMS/Form/default.html.twig' %}
+{% endblock %}

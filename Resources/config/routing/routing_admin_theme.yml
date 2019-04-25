@@ -1,0 +1,21 @@
+cms_admin_theme_index:
+    path: /
+    defaults:
+        _controller: CMSBundle:AdminTheme:index
+
+cms_admin_theme_show:
+    path: /{name}/
+    defaults:
+        _controller: CMSBundle:AdminTheme:theme
+
+cms_admin_theme_file_edit:
+    path: /{theme}/{dir}:{relativePathname}
+    defaults:
+        _controller: CMSBundle:AdminTheme:fileEdit
+    requirements:
+        relativePathname: '.+'
+
+cms_admin_theme_get_screenshot:
+    path: /get_screenshot/{theme}/{filename}
+    defaults:
+        _controller: CMSBundle:AdminTheme:getScreenshot

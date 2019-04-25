@@ -1,0 +1,20 @@
+{% extends '@CMS/layout/adminlte.html.twig' %}
+
+{% block title %}{{ 'Login'|trans }} / {{ parent() }}{% endblock %}
+
+{% block body_attr %} class="hold-transition login-page" {% endblock %}
+
+{% block body %}
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ app.request.baseUrl }}/" title="{{ 'Go to site homepage'|trans }}"><b>Monolith</b> CMS</a>
+        </div>
+
+        <div class="login-box-body">
+            <p class="login-box-msg">{{ 'Sign in to start your session'|trans }}</p>
+
+            {{ render(controller('FOSUserBundle:Security:login')) }}
+
+        </div>
+    </div>
+{% endblock body %}

@@ -1,0 +1,26 @@
+instance_uid:
+    value: ''
+    hidden: true
+appearance_editor:
+    type: ChoiceType
+    choices:
+        ace: Ace
+        codemirror: Codemirror
+    value: ace
+    personalize: true
+appearance_editor_theme: idle_fingers
+timezone:
+    #title: Timezone
+    type: TimezoneType
+    value: Europe/Moscow
+html_title_delimiter: '&ndash;'
+site_full_name: Monolith CMS
+site_short_name: Monolith CMSS
+enable_node_cache:
+    type: CheckboxType
+    value: true
+    personalize: true
+is_collapse_system_menu:
+    type: CheckboxType
+    value: false
+    personalize: true

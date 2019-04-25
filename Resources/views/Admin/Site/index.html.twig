@@ -1,0 +1,58 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Sites'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Sites'|trans %}
+{% block page_description 'Настройка сайтов и доменов' %}
+{% block content_header_wrapper '' %}
+
+{% block content_body %}
+    <a href="{{ path('cms_admin_site_create') }}" class="btn btn-success" style="float: right;">
+        <i class="icon-plus icon-white"></i><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Добавить сайт
+    </a>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a>{{ 'Sites list'|trans }}</a></li>
+        <li role="presentation"><a href="{{ path('cms_admin_domains') }}">{{ 'Domains'|trans }}</a></li>
+    </ul>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th style="width: 1%;">id</th>
+            <th>{{ 'Appellation'|trans }}</th>
+            <th>{{ 'Domain'|trans }}</th>
+            <th>{{ 'Theme'|trans }}</th>
+            <th>{{ 'Language'|trans }}</th>
+            <th>{{ 'Is enabled'|trans }}</th>
+            <th>{{ 'Web root'|trans }}</th>
+            <th>{{ 'Created at'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in sites %}
+            <tr>
+                <td><a href="{{ path('cms_admin_site_edit', {'id': e.id}) }}">{{ e.id }}</a></td>
+                <td><a href="{{ path('cms_admin_site_edit', {'id': e.id}) }}">{{ e.name }}</a></td>
+                <td>{{ e.domain }}
+                    {% if e.domain is not empty and e.domain.children is not empty %}
+                        <div class="alert" style="background-color: #ececec !important; color: black !important;">
+                            <p><b>Алиасы</b></p>
+                            {% for alias in e.domain.children %}
+                                <span {% if not alias.isEnabled %} style="text-decoration: line-through;"{% endif %}>{{ alias.name }}</span>
+                                <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </td>
+                <td>{{ e.theme }}</td>
+                <td>{{ e.language }}</td>
+                <td>{{ e.isEnabled }}</td>
+                <td>{{ e.webRoot }}</td>
+                <td>{{ e.createdAt|format_date }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

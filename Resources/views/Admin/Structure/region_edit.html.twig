@@ -1,0 +1,29 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Block edit'|trans }} / {{ 'Structure'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Structure'|trans %}
+{% block page_description 'Управление папками, нодами и областями' %}
+
+{% block content %}
+{{ knp_menu_render('CMSBundle:AdminMenu:structure', {'currentClass': 'active'})  }}
+
+<div class="box box-body">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ 'Region edit'|trans }}</h3>
+    </div>
+
+    <form action="" enctype="multipart/form-data" method="post" class="form-horizontal well">
+        {{ form_widget(form) }}
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" name="update" class="btn btn-success"><i class="icon-ok icon-white"></i><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{ 'Save'|trans }}</button>
+                <button type="submit" name="delete" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить область?')">
+                    <i class="icon-trash icon-white"></i><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{ 'Delete'|trans }}
+                </button>
+                <a class="btn btn-default" href="{{ path('cms_admin_structure_region') }}"> {{ 'Cancel'|trans }}</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

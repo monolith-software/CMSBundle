@@ -1,0 +1,46 @@
+{% extends '@CMS/layout/adminlte_overlay.html.twig' %}
+
+{% block title %}{{ 'Structure'|trans }} / {{ parent() }}{% endblock %}
+
+{#{% block page_header 'Structure'|trans %}#}
+{#{% block page_description 'Управление папками, нодами и областями' %}#}
+
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body_js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="loader loader-active">
+        <i class="fa fa-spin fa-refresh spinner"></i>
+    </div>
+    <style>
+        .loader {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+            background: transparent;
+        }
+        .loader-active {
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.15);
+        }
+        .spinner {
+            position: absolute;
+            left: calc(50% - 8px);
+            top: calc(50% - 8px);
+        }
+    </style>
+    <script>
+    {% if payload is not empty %}
+        window.top.__sendNotice('{{ payload.type }}', '{{ payload.message }}');
+    {% endif %}
+    </script>
+{% endblock content %}

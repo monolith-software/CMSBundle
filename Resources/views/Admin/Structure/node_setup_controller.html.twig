@@ -1,0 +1,59 @@
+{% extends '@CMS/Admin/Structure/structure.html.twig' %}
+
+{% block title %}{{ 'Edit node'|trans }}: {{ node.id }} ({{ node.moduleShortName }}) / {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="{% if not app.request.query.has('_overlay') and _overlay is empty %} col-md-8 {% else %} col-md-12 {% endif %}">
+        {% if not app.request.query.has('_overlay') and _overlay is empty %}
+            {{ knp_menu_render('CMSBundle:AdminMenu:structure', {'currentClass': 'active'})  }}
+        {% endif %}
+        <div class="box box-body">
+
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ 'Edit node'|trans }}</h3>
+            </div>
+
+            <h3>Модуль {{ node.moduleShortName }}</h3>
+
+            <h4>Первичная настройка ноды</h4>
+            {% include '@CMS/Form/default.html.twig' %}
+
+        </div>
+    </div>
+    {% if not app.request.query.has('_overlay') and _overlay is empty %}
+    <div class="span3 col-md-4">
+        {{ include('@CMS/Admin/Structure/_mega_structure.html.twig') }}
+    </div>
+    {% endif %}
+    {% if app.request.query.has('_overlay') or _overlay is not empty %}
+        <script>
+          document.querySelector('.cms-cancel').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.top.__closeIframe();
+          });
+        </script>
+        <style>
+            .if-overlay-control-group {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: #1e282c;
+                padding: 10px 0;
+                margin: 0px !important;
+            }
+
+            .if-overlay-control-group .controls {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            .if-overlay-control-group .controls .btn {
+                margin-right: 15px;
+            }
+        </style>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+admin.panel.access: # Доступ в админку через файрвол симфони
+    default: false    # Значение по умолчанию для новых групп
+    roles: ROLE_ADMIN # При включении этого доступа в группу, группе будет назначена данная роль
+    always_for_groups: admin #
+admin.system: # Ниже видно, что этот доступ закрывает всё управление структурой т.к. является для некоторых доступов родительским.
+    default: false
+    roles: ROLE_ADMIN_SYSTEM
+admin.system.config:
+    default: true
+    parent: admin.system # @todo Родительская группа, значение которой в приоритете
+    roles: ROLE_ADMIN_CONFIG
+admin.system.language:
+    default: true
+    roles: ROLE_ADMIN_LANGUAGE
+admin.system.site:
+    default: true
+    roles: ROLE_ADMIN_SITE
+admin.system.development:
+    default: false
+    roles: ROLE_ADMIN_SITE
+admin.system.module:
+    default: true
+    roles: ROLE_ADMIN_MODULE
+admin.system.structure: true
+admin.system.theme: true
+admin.system.user:
+    default: true
+    roles: ROLE_ADMIN_USER
+admin.system.user_groups:
+    default: true
+    roles: ROLE_ADMIN_USER_GROUPS
+admin.modules: false # Управление модулями (включение, отключение, установка, удаление
+filemanager:
+    default: true
+    roles: ROLE_FILEMANAGER

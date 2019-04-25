@@ -1,0 +1,19 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Edit domain'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Domains'|trans %}
+{% block page_description 'Настройка сайтов и доменов' %}
+{% block content_header %}
+    {% set domain = form.vars.data %}
+
+    {% if domain.parent is empty %}
+        {{ 'Edit domain'|trans }}: &laquo;{{ domain.name }}&raquo;
+    {% else %}
+        {{ 'Edit domain alias for'|trans }}: &laquo;{{ domain.parent }}&raquo;
+    {% endif %}
+{% endblock %}
+
+{% block content_body %}
+    {% include '@CMS/Form/default.html.twig' %}
+{% endblock %}

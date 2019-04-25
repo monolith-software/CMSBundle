@@ -1,0 +1,70 @@
+{% extends '@CMS/admin.html.twig' %}
+
+{% block title %}{{ 'Domains'|trans }} / {{ parent() }}{% endblock %}
+
+{% block page_header 'Domains'|trans %}
+{% block page_description 'Настройка сайтов и доменов' %}
+{% block content_header_wrapper '' %}
+
+{% block content_body %}
+    <a href="{{ path('cms_admin_domain_create') }}" class="btn btn-success" style="float: right;">
+        <i class="icon-plus icon-white"></i><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Добавить домен
+    </a>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="{{ path('cms_admin_site') }}">{{ 'Sites list'|trans }}</a></li>
+        <li role="presentation" class="active"><a>{{ 'Domains'|trans }}</a></li>
+    </ul>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th style="width: 1%;">id</th>
+            <th>{{ 'Name'|trans }}</th>
+            <th>{{ 'Domain aliases'|trans }}</th>
+            <th>{{ 'Is enabled'|trans }}</th>
+            <th>{{ 'Paid till date'|trans }}</th>
+            <th>{{ 'Created at'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in domains %}
+            <tr>
+                <td><a href="{{ path('cms_admin_domain_edit', {'id': e.id}) }}">{{ e.id }}</a></td>
+                <td>
+                    <a href="{{ path('cms_admin_domain_edit', {'id': e.id}) }}">{{ e.name }}</a>
+
+                    {% if e.language is not empty %} [lang: {{ e.language }}]{% endif %}
+                </td>
+                <td>
+                    {% if e.children is not empty %}
+                        {% for alias in e.children %}
+                            <a href="{{ path('cms_admin_domain_edit', {'id': alias.id}) }}"
+                                    {% if not alias.isEnabled %} style="text-decoration: line-through;"{% endif %}
+                                    {% if alias.comment is not empty %} title="{{ alias.comment }}"{% endif %}
+                            >{{ alias.name }}</a>
+
+                            {% if alias.isRedirect %}
+                                (redirect)
+                            {% endif %}
+
+                            {% if alias.paidTillDate is not empty %} до {{ alias.paidTillDate|date('Y-m-d') }}{% endif %}
+
+                            {% if alias.language is not empty %} [lang: {{ alias.language }}]{% endif %}
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+
+                    <a href="{{ path('cms_admin_domain_create_alias', {'id': e.id}) }}" class="btn btn-sm btn-default">
+                        Добавить алиас
+                    </a>
+                </td>
+                <td>{{ e.isEnabled }}</td>
+                <td>{% if e.paidTillDate is not empty %}{{ e.paidTillDate|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ e.createdAt|format_date }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
