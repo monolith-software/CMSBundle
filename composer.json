@@ -117,6 +117,9 @@
         "preferred-install": "source"
     },
     "autoload": {
-        "psr-4": {"Monolith\\Bundle\\CMSBundle\\": ""}
+        "psr-4": {
+            "Monolith\\Bundle\\CMSBundle\\": "",
+            "Doctrine\\ORM\\": "Doctrine/ORM"
+        }
     }
 }
