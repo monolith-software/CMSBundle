@@ -17,8 +17,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Monolith\\Bundle\\CMSBundle\\": "",
-            "Doctrine\\ORM\\": "Doctrine/ORM"
-        }
+            "Monolith\\Bundle\\CMSBundle\\": ""
+        },
+        "files": [
+            "Doctrine/ORM/Utility/IdentifierFlattener.php"
+        ]
     }
 }
