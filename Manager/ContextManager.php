@@ -6,6 +6,7 @@ namespace Monolith\Bundle\CMSBundle\Manager;
 
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\ORM\ORMException;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Monolith\Bundle\CMSBundle\Entity\Domain;
 use Monolith\Bundle\CMSBundle\Entity\Language;
 use Monolith\Bundle\CMSBundle\Entity\Site;
@@ -20,20 +21,23 @@ class ContextManager
     protected $current_folder_id    = 1;
     protected $current_folder_path  = '/';
     protected $current_node_id      = null;
-    protected $template             = 'default';
     protected $domain               = null;
     protected $site                 = null;
+    protected $template             = 'default';
+    protected $userManager          = null;
 
     /**
      * ContextManager constructor.
      *
      * @param ContainerInterface $container
+     * @param UserManagerInterface $userManager
      *
      * @todo кешироание
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, UserManagerInterface $userManager)
     {
-        $this->container = $container;
+        $this->container   = $container;
+        $this->userManager = $userManager;
 
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -180,6 +184,14 @@ class ContextManager
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * @return UserManagerInterface|null
+     */
+    public function getUserManager(): ?UserManagerInterface
+    {
+        return $this->userManager;
     }
 
     /**

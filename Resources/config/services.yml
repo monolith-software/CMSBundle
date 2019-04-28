@@ -54,7 +54,7 @@ services:
     cms.context:
         class: Monolith\Bundle\CMSBundle\Manager\ContextManager
         public: true
-        arguments: [ '@service_container' ]
+        arguments: [ '@service_container', '@fos_user.user_manager' ]
     cms.folder:
         class: Monolith\Bundle\CMSBundle\Manager\FolderManager
         public: true
