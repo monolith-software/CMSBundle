@@ -1,11 +1,11 @@
 {% extends '@MopaBootstrap/Form/fields.html.twig' %}
 
 {% block button_row %}
-    {% spaceless %}
+    {% apply spaceless %}
         <div class="form-button">
             {{ form_widget(form) }}
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock button_row %}
 
 {# @todo пока так добавляется id с _control_group - нужен для интеграции ace #}
