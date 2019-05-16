@@ -3,7 +3,7 @@ imports:
     - { resource: '@SiteBundle/Resources/config/security.yml', ignore_errors: true }
 
 framework:
-    router:   { resource: "%kernel.root_dir%/config/routing_dev.yml" }
+    router:   { resource: "%kernel.project_dir%/app/config/routing_dev.yml" }
     profiler:
         enabled: true
         only_exceptions: false

@@ -5,7 +5,7 @@ parameters:
     uploads_dir: uploads
     user_path: user
     user_class: App\User # for installation process only @todo
-#    genemu.form.file.root_dir: "%kernel.root_dir%/../web" @todo
+#    genemu.form.file.root_dir: "%kernel.project_dir%/web" @todo
     database_table_prefix: ''
     liip_theme.filesystem_loader.class: Monolith\Bundle\CMSBundle\Twig\Loader\FilesystemLoader
     sonata.intl.timezone_detector.chain.class: Monolith\Bundle\CMSBundle\Timezone\SonataChainTimezoneDetector
@@ -288,7 +288,7 @@ fos_user:
 #genemu_form: @todo
 #    image: ~
 #    captcha:
-#        font_dir: "%kernel.root_dir%/../web/bundles/genemuform/fonts"
+#        font_dir: "%kernel.project_dir%/web/bundles/genemuform/fonts"
 #    file:
 #        swf: /assets/uploadify/uploadify.swf
 #        folder: "/%uploads_dir%"
@@ -306,11 +306,11 @@ liip_imagine:
     loaders:
         default:
             filesystem:
-                data_root: "%kernel.root_dir%/../web"
+                data_root: "%kernel.project_dir%/web"
     resolvers:
         default:
             web_path:
-                web_root: "%kernel.root_dir%/../web"
+                web_root: "%kernel.project_dir%/web"
     filter_sets: # Важно! символ подчеркивание игнорируется, а минус преобразуется в подчеркивание.
         100x100:
             format: jpeg
@@ -445,7 +445,7 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:
         type:  memory # file
-        path:  "%kernel.root_dir%/../var/mailspool"
+        path:  "%kernel.project_dir%/var/mailspool"
 
 # Twig Configuration
 twig:
