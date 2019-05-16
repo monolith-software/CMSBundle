@@ -154,7 +154,7 @@ class ThemeManager
                 $result[] = [
                     'method' => $method,
                     'theme'  => $name,
-                    'target' => $targetDir,
+                    'target' => str_replace($this->container->getParameter('kernel.project_dir'), '.', $targetDir),
                 ];
             }
         }
