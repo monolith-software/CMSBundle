@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Monolith\Bundle\CMSBundle\Controller;
 
+use Monolith\Bundle\CMSBundle\Entity\AppearanceHistory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Smart\CoreBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Error\SyntaxError;
+use Twig\Source;
 
 /**
  * @Security("is_granted('ROLE_ADMIN_SYSTEM') or has_role('ROLE_SUPER_ADMIN')")
@@ -113,8 +117,9 @@ class AdminThemeController extends Controller
      *
      * @return Response
      */
-    public function fileEditAction(string $theme, string $dir, string $relativePathname)
+    public function fileEditAction(Request $request, string $theme, string $dir, string $relativePathname)
     {
+        $themeName = $theme;
         $theme = $this->get('cms.theme')->get($theme);
 
         if (empty($theme)) {
@@ -127,6 +132,39 @@ class AdminThemeController extends Controller
 
         if (!file_exists($filepath)) {
             throw $this->createNotFoundException('File is not exist: '.$filepath);
+        }
+
+        if ($request->isMethod('POST')) {
+            $code = $request->request->get('code');
+
+            try {
+                if (pathinfo($relativePathname)['extension'] == 'twig') {
+                    $source = new Source($code, basename($relativePathname), $filepath);
+
+                    $twig = $this->get('twig');
+                    $twig->parse($twig->tokenize($source));
+
+                    $twig->compileSource($source);
+                }
+
+                $history = new AppearanceHistory();
+                $history
+                    ->setPath('/Resources/views/')
+                    ->setFilename($relativePathname.'.html.twig')
+                    ->setCode($code)
+                    ->setUser($this->getUser())
+                ;
+
+                $this->persist($history, true);
+
+                file_put_contents($filepath, $code);
+
+                $this->addFlash('success', 'Файл обновлён.');
+
+                return $this->redirectToRoute('cms_admin_theme_show', ['name' => $themeName]);
+            } catch (SyntaxError $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         $file = new File($filepath);
