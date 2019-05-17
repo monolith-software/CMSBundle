@@ -450,7 +450,7 @@ swiftmailer:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    strict_variables: false
+    strict_variables: true
     autoescape:       false
 
 vich_uploader:
